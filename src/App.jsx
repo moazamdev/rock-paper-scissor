@@ -54,7 +54,7 @@ function App() {
 
 				<hr className="my-5" />
 				<div className="flex justify-center items-center flex-col gap-5">
-					<h3 className="text-start mb-2 uppercase text-[10px] tracking-[3px]">
+					<h3 className="text-start mb-2 uppercase text-[12px] tracking-[3px]">
 						Controls [Click on the option]
 					</h3>
 					<div className="button-container flex justify-center items-center gap-5">
@@ -77,13 +77,13 @@ function App() {
 				<div className="flex justify-center items-center gap-5">
 					<div className="score-board mb-5 w-full flex justify-between direction-row">
 						<div className="user-score-board flex justify-start flex-col">
-							<h2 className="text-start mb-2 uppercase text-[10px] tracking-[3px]">
+							<h2 className="text-start mb-2 uppercase text-[12px] tracking-[3px]">
 								User Score:{" "}
 							</h2>
 							<h3 className="text-start mb-2">{userScore}</h3>
 						</div>
 						<div className="computer-score-board flex justify-start flex-col">
-							<h2 className="text-start mb-2 uppercase text-[10px] tracking-[3px]">
+							<h2 className="text-start mb-2 uppercase text-[12px] tracking-[3px]">
 								Turns:{" "}
 							</h2>
 							<input
@@ -98,14 +98,14 @@ function App() {
 							/>
 						</div>
 						<div className="computer-score-board flex justify-start flex-col">
-							<h2 className="text-start mb-2 uppercase text-[10px] tracking-[3px]">
+							<h2 className="text-start mb-2 uppercase text-[12px] tracking-[3px]">
 								Computer Score:{" "}
 							</h2>
 							<h3 className="text-start mb-2">{computerScore}</h3>
 						</div>
 					</div>
 				</div>
-				<h3 className="mb-2 uppercase text-[10px] tracking-[3px]">
+				<h3 className="mb-2 uppercase text-[12px] tracking-[3px]">
 					Result
 				</h3>
 				<h2
@@ -133,7 +133,7 @@ function App() {
 				</div>
 			</div>
 
-			<p className="mt-5 mb-2 uppercase text-[10px] tracking-[3px]">
+			<p className="mt-5 mb-2 uppercase text-[12px] tracking-[3px]">
 				Developed by{" "}
 				<a target="_blank" href="https://linkedin.com/in/moazamdev">
 					Moazam Ali
