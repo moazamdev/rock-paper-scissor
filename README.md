@@ -18,4 +18,4 @@ This repository contains a Rock Paper Scissor game created using React. The purp
 
 ## Author
 
-This game was created by (Moazam Ali)[https://github.com/moazamdev].
+This game was created by [Moazam Ali](https://github.com/moazamdev).
