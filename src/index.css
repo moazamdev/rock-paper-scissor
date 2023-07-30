@@ -72,8 +72,33 @@ button:focus-visible {
 	}
 }
 
-.app-title-heading
-{
-	text-shadow: 2px 2px 0px red, 
-				-2px -2px 0px blue;
+.app-title-heading {
+	text-shadow: 2px 2px 0px red, -2px -2px 0px blue;
+}
+
+.fade-emojis {
+	position: absolute;
+	user-select: none;
+	pointer-events: none;
+	top: 37%;
+	left: 42%;
+	opacity: 0;
+}
+.fade-emojis.active {
+	animation: fade 2s ease-in-out forwards;
+}
+
+@keyframes fade {
+	0% {
+		opacity: 0;
+		scale: 0;
+	}
+	50% {
+		opacity: 1;
+		scale: 1;
+	}
+	100% {
+		opacity: 0;
+		scale: 2;
+	}
 }

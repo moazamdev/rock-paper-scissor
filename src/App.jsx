@@ -1,12 +1,11 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import "./App.css";
 import ScoreComponent from "./components/score-component";
 import SelectionComponent from "./components/selection-component";
 import Footer from "./components/footer";
 import ControlsComponent from "./components/controls";
 
-import { countAsterisks } from "./components/utilis";
-
+import { checkWhoWins } from "./components/utilis";
 
 function App() {
 	const [userValue, setUserValue] = useState("");
@@ -16,27 +15,34 @@ function App() {
 	const [currentResult, setCurrentResult] = useState("");
 	const [whoWins, setWhoWins] = useState("");
 	const [turns, setTurns] = useState(5);
-	
+
+	let addClass = useRef(null);
+
 	const optionsArr = ["Rock", "Paper", "Scissor"];
-	
+
 	const handleClick = (chosenValue) => {
 		// exit if turns are equal to 0
 		if (turns === 0) {
 			alert("Bas Karde Bhai, Game Khatam Ho Gai");
 
-			countAsterisks(userScore) > countAsterisks(computerScore)
-				? alert("You Win 🎉 \nKhandani khilari he ham to")
-				: alert("Computer Won 😈 \nJa pehle seekh kar aa");
+			checkWhoWins(userScore, computerScore);
 
 			setTurns((prevTurns) => prevTurns - 1);
 			setCurrentResult("");
 			setUserScore("");
 			setComputerScore("");
+			setUserValue("");
+			setComputerValue("");
 			return;
 		}
 
 		// exit if turns are less than or equal to 0
 		if (turns <= 0) return;
+
+		addClass.current.classList.add("active");
+		setTimeout(() => {
+			addClass.current.classList.remove("active");
+		}, 2000);
 
 		// calculating the computer choice and setting the values
 		const randomValue = optionsArr[Math.floor(Math.random() * 3)];
@@ -75,6 +81,20 @@ function App() {
 				<h1 className="mb-10 font-bold app-title-heading">
 					Rock Paper Scissor
 				</h1>
+				<div ref={addClass} className="fade-emojis flex flex-row">
+					<h3 className="text-[100px]">
+						{userValue == "Rock" && "✊"}
+						{userValue == "Paper" && "✋"}
+						{userValue == "Scissor" && "✌"}
+					</h3>
+					<h3 className="text-[20px] font-bold">VS</h3>
+					<h3 className="text-[100px]">
+						{" "}
+						{computerValue == "Rock" && "✊"}
+						{computerValue == "Paper" && "✋"}
+						{computerValue == "Scissor" && "✌"}
+					</h3>
+				</div>
 
 				<hr className="my-5 border-t-1 border-slate-600" />
 				<ControlsComponent turns={turns} handleClick={handleClick} />

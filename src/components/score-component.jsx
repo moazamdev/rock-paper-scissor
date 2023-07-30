@@ -48,7 +48,7 @@ const ScoreComponent = ({
 					whoWins === "user" ? "text-[#00FF00]" : "text-[#FF0000]"
 				} ${
 					whoWins === "draw" && "text-[#cdcdcd]"
-				} uppercase font-semibold tracking-[5px]`}
+				} uppercase -mt-3 text-[25px] font-semibold tracking-[5px]`}
 			>
 				{currentResult == "" ? "--" : currentResult}
 			</h2>
