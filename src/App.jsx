@@ -28,8 +28,12 @@ function App() {
 				: alert("Computer Won 😈 \nJa pehle seekh kar aa");
 
 			setTurns((prevTurns) => prevTurns - 1);
+			setCurrentResult("");
+			setUserScore("");
+			setComputerScore("");
 			return;
 		}
+		if (turns <= 0) return;
 
 		const randomValue = optionsArr[Math.floor(Math.random() * 3)];
 		setUserValue(chosenValue);
