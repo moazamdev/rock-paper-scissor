@@ -1,11 +1,12 @@
 import { useState } from "react";
 import "./App.css";
-import Button from "./components/button";
-import Input from "./components/input";
-import HeadingTwo from "./components/headingtwo";
-import SelectionBoard from "./components/selection-board";
+import ScoreComponent from "./components/score-component";
+import SelectionComponent from "./components/selection-component";
+import Footer from "./components/footer";
+import ControlsComponent from "./components/controls";
 
-const optionsArr = ["Rock", "Paper", "Scissor"];
+import { countAsterisks } from "./components/utilis";
+
 
 function App() {
 	const [userValue, setUserValue] = useState("");
@@ -15,11 +16,11 @@ function App() {
 	const [currentResult, setCurrentResult] = useState("");
 	const [whoWins, setWhoWins] = useState("");
 	const [turns, setTurns] = useState(5);
-
-	const countAsterisks = (inputString) => {
-		return inputString.split("*").length - 1;
-	};
+	
+	const optionsArr = ["Rock", "Paper", "Scissor"];
+	
 	const handleClick = (chosenValue) => {
+		// exit if turns are equal to 0
 		if (turns === 0) {
 			alert("Bas Karde Bhai, Game Khatam Ho Gai");
 
@@ -33,13 +34,17 @@ function App() {
 			setComputerScore("");
 			return;
 		}
+
+		// exit if turns are less than or equal to 0
 		if (turns <= 0) return;
 
+		// calculating the computer choice and setting the values
 		const randomValue = optionsArr[Math.floor(Math.random() * 3)];
 		setUserValue(chosenValue);
 		setComputerValue(randomValue);
 
 		if (chosenValue === randomValue) {
+			// if draw
 			setCurrentResult("Draw");
 			setUserScore((prevScore) => prevScore + "- ");
 			setComputerScore((prevScore) => prevScore + "- ");
@@ -49,32 +54,20 @@ function App() {
 			(chosenValue === "Paper" && randomValue === "Rock") ||
 			(chosenValue === "Scissor" && randomValue === "Paper")
 		) {
+			// if user wins
 			setCurrentResult("User Win");
 			setUserScore((prevScore) => prevScore + "* ");
 			setWhoWins("user");
 		} else {
+			// if computer wins
 			setCurrentResult("Computer Win");
 			setComputerScore((prevScore) => prevScore + "* ");
 			setWhoWins("computer");
 		}
 
+		// for decrementing the turns
 		setTurns((prevTurns) => prevTurns - 1);
 	};
-
-	let buttonsArr = [
-		{
-			value: "✊ Rock",
-			text: "Rock",
-		},
-		{
-			value: "✋ Paper",
-			text: "Paper",
-		},
-		{
-			value: "✌ Scissor",
-			text: "Scissor",
-		},
-	];
 
 	return (
 		<>
@@ -84,98 +77,28 @@ function App() {
 				</h1>
 
 				<hr className="my-5 border-t-1 border-slate-600" />
-				{turns < 0 ? (
-					<button
-						className="bg-[#000] "
-						onClick={() => window.location.reload()}
-					>
-						🔄 New Game
-					</button>
-				) : (
-					<div className="flex justify-center items-center flex-col gap-5">
-						<HeadingTwo text="Controls [Click on the option]" />
-						<div className="button-container flex justify-center items-center gap-5">
-							{buttonsArr.map((button) => (
-								<Button
-									onClick={() => handleClick(button.text)}
-									value={button.value}
-								/>
-							))}
-						</div>
-					</div>
-				)}
+				<ControlsComponent turns={turns} handleClick={handleClick} />
 
 				<hr className="my-5 border-t-1 border-slate-600" />
-				<div className="flex justify-center items-center gap-5">
-					<div className="score-board mb-5 w-full flex justify-between direction-row">
-						<div className="user-score-board flex justify-start flex-col">
-							<HeadingTwo text="User Score:" />
-							<h3 className="text-start mb-2">{userScore}</h3>
-						</div>
-						<div className="computer-score-board flex justify-start flex-col">
-							<HeadingTwo text="Turns:" />
-							{/* <input
-								type="number"
-								onChange={(e) => {
-									setTurns(e.target.value);
-									setUserScore("");
-									setComputerScore("");
-								}}
-								min={0}
-								value={turns}
-							/> */}
-							<Input
-								className="w-20 p-1 px-3 rounded"
-								value={turns}
-								type="number"
-								disabled={false}
-								readOnly={false}
-								onChange={(e) => {
-									setTurns(e.target.value);
-									setUserScore("");
-									setComputerScore("");
-								}}
-							/>
-						</div>
-						<div className="computer-score-board flex justify-start flex-col">
-							<HeadingTwo text="Computer Score:" />
-							<h3 className="text-start mb-2">{computerScore}</h3>
-						</div>
-					</div>
-				</div>
-
-				<HeadingTwo position="center" text="Result" />
-				<h2
-					className={`${
-						whoWins === "user" ? "text-[#00FF00]" : "text-[#FF0000]"
-					} ${
-						whoWins === "draw" && "text-[#cdcdcd]"
-					} uppercase font-semibold tracking-[5px]`}
-				>
-					{currentResult == "" ? "--" : currentResult}
-				</h2>
+				<ScoreComponent
+					userScore={userScore}
+					computerScore={computerScore}
+					setUserScore={setUserScore}
+					setComputerScore={setComputerScore}
+					turns={turns}
+					setTurns={setTurns}
+					whoWins={whoWins}
+					currentResult={currentResult}
+				/>
 
 				<hr className="my-5 border-t-1 border-slate-600" />
-				<div className="board-container">
-					<div className="gap-10 board flex justify-between direction-row">
-						<SelectionBoard
-							choosedValue={userValue}
-							text={"User"}
-						/>
-						<SelectionBoard
-							choosedValue={computerValue}
-							text={"Computer"}
-						/>
-					</div>
-				</div>
+				<SelectionComponent
+					userValue={userValue}
+					computerValue={computerValue}
+				/>
 			</div>
 
-			<p className="mt-5 mb-2 uppercase text-[12px] tracking-[3px]">
-				Developed by{" "}
-				<a target="_blank" href="https://linkedin.com/in/moazamdev">
-					Moazam Ali
-				</a>
-			</p>
+			<Footer />
 		</>
 	);
 }
