@@ -1,13 +1,21 @@
 import React from "react";
 
-const Input = ({ value }) => {
+const Input = ({
+	value,
+	type = "text",
+	disabled = true,
+	readOnly = true,
+	onChange,
+	className = "rounded p-2",
+}) => {
 	return (
 		<input
-			className="rounded p-2"
-			type="text"
-			disabled
+			className={className}
+			type={type}
+			disabled={disabled}
 			value={value}
-			readOnly
+			readOnly={readOnly}
+			onChange={onChange}
 		/>
 	);
 };

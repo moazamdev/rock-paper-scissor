@@ -2,6 +2,8 @@ import { useState } from "react";
 import "./App.css";
 import Button from "./components/button";
 import Input from "./components/input";
+import HeadingTwo from "./components/headingtwo";
+import SelectionBoard from "./components/selection-board";
 
 const optionsArr = ["Rock", "Paper", "Scissor"];
 
@@ -14,11 +16,21 @@ function App() {
 	const [whoWins, setWhoWins] = useState("");
 	const [turns, setTurns] = useState(5);
 
+	const countAsterisks = (inputString) => {
+		return inputString.split("*").length - 1;
+	};
 	const handleClick = (chosenValue) => {
 		if (turns === 0) {
 			alert("Bas Karde Bhai, Game Khatam Ho Gai");
+
+			countAsterisks(userScore) > countAsterisks(computerScore)
+				? alert("You Win 🎉 \nKhandani khilari he ham to")
+				: alert("Computer Won 😈 \nJa pehle seekh kar aa");
+
+			setTurns((prevTurns) => prevTurns - 1);
 			return;
 		}
+
 		const randomValue = optionsArr[Math.floor(Math.random() * 3)];
 		setUserValue(chosenValue);
 		setComputerValue(randomValue);
@@ -45,69 +57,90 @@ function App() {
 		setTurns((prevTurns) => prevTurns - 1);
 	};
 
+	let buttonsArr = [
+		{
+			value: "✊ Rock",
+			text: "Rock",
+		},
+		{
+			value: "✋ Paper",
+			text: "Paper",
+		},
+		{
+			value: "✌ Scissor",
+			text: "Scissor",
+		},
+	];
+
 	return (
 		<>
-			<div className="bg-[#212121] border-black p-10 rounded">
+			<div className="bg-[#212121] border border-t-[#0000ff] border-l-[#0000ff] border-b-[#ff0000] border-r-[#ff0000] p-10 rounded">
 				<h1 className="mb-10 font-bold app-title-heading">
 					Rock Paper Scissor
 				</h1>
 
-				<hr className="my-5" />
-				<div className="flex justify-center items-center flex-col gap-5">
-					<h3 className="text-start mb-2 uppercase text-[12px] tracking-[3px]">
-						Controls [Click on the option]
-					</h3>
-					<div className="button-container flex justify-center items-center gap-5">
-						<Button
-							onClick={() => handleClick("Rock")}
-							value={"Rock"}
-						/>
-						<Button
-							onClick={() => handleClick("Paper")}
-							value={"Paper"}
-						/>
-						<Button
-							onClick={() => handleClick("Scissor")}
-							value={"Scissor"}
-						/>
+				<hr className="my-5 border-t-1 border-slate-600" />
+				{turns < 0 ? (
+					<button
+						className="bg-[#000] "
+						onClick={() => window.location.reload()}
+					>
+						🔄 New Game
+					</button>
+				) : (
+					<div className="flex justify-center items-center flex-col gap-5">
+						<HeadingTwo text="Controls [Click on the option]" />
+						<div className="button-container flex justify-center items-center gap-5">
+							{buttonsArr.map((button) => (
+								<Button
+									onClick={() => handleClick(button.text)}
+									value={button.value}
+								/>
+							))}
+						</div>
 					</div>
-				</div>
+				)}
 
-				<hr className="my-5" />
+				<hr className="my-5 border-t-1 border-slate-600" />
 				<div className="flex justify-center items-center gap-5">
 					<div className="score-board mb-5 w-full flex justify-between direction-row">
 						<div className="user-score-board flex justify-start flex-col">
-							<h2 className="text-start mb-2 uppercase text-[12px] tracking-[3px]">
-								User Score:{" "}
-							</h2>
+							<HeadingTwo text="User Score:" />
 							<h3 className="text-start mb-2">{userScore}</h3>
 						</div>
 						<div className="computer-score-board flex justify-start flex-col">
-							<h2 className="text-start mb-2 uppercase text-[12px] tracking-[3px]">
-								Turns:{" "}
-							</h2>
-							<input
+							<HeadingTwo text="Turns:" />
+							{/* <input
 								type="number"
 								onChange={(e) => {
 									setTurns(e.target.value);
 									setUserScore("");
 									setComputerScore("");
 								}}
+								min={0}
 								value={turns}
+							/> */}
+							<Input
 								className="w-20 p-1 px-3 rounded"
+								value={turns}
+								type="number"
+								disabled={false}
+								readOnly={false}
+								onChange={(e) => {
+									setTurns(e.target.value);
+									setUserScore("");
+									setComputerScore("");
+								}}
 							/>
 						</div>
 						<div className="computer-score-board flex justify-start flex-col">
-							<h2 className="text-start mb-2 uppercase text-[12px] tracking-[3px]">
-								Computer Score:{" "}
-							</h2>
+							<HeadingTwo text="Computer Score:" />
 							<h3 className="text-start mb-2">{computerScore}</h3>
 						</div>
 					</div>
 				</div>
-				<h3 className="mb-2 uppercase text-[12px] tracking-[3px]">
-					Result
-				</h3>
+
+				<HeadingTwo position="center" text="Result" />
 				<h2
 					className={`${
 						whoWins === "user" ? "text-[#00FF00]" : "text-[#FF0000]"
@@ -115,20 +148,20 @@ function App() {
 						whoWins === "draw" && "text-[#cdcdcd]"
 					} uppercase font-semibold tracking-[5px]`}
 				>
-					{currentResult}
+					{currentResult == "" ? "--" : currentResult}
 				</h2>
 
-				<hr className="my-5" />
+				<hr className="my-5 border-t-1 border-slate-600" />
 				<div className="board-container">
 					<div className="gap-10 board flex justify-between direction-row">
-						<div className="user-board">
-							<h2 className="text-start mb-2">User</h2>
-							<Input value={userValue} />
-						</div>
-						<div className="computer-board">
-							<h2 className="text-start mb-2">Computer</h2>
-							<Input value={computerValue} />
-						</div>
+						<SelectionBoard
+							choosedValue={userValue}
+							text={"User"}
+						/>
+						<SelectionBoard
+							choosedValue={computerValue}
+							text={"Computer"}
+						/>
 					</div>
 				</div>
 			</div>
