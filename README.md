@@ -4,7 +4,7 @@ This repository contains a Rock Paper Scissor game created using React. The purp
 
 ## Mockup
 
-![mockup](https://github.com/moazamdev/rock-paper-scissor/assets/89134865/31bc9e09-d472-43a4-89e4-084b86a7a478)
+![Rock Paper Scissor Video](https://github.com/moazamdev/rock-paper-scissor/assets/89134865/92e818d2-80be-4c4e-a736-de134f26bd60)
 
 ## How to Play
 
